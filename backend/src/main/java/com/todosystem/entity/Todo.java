@@ -22,7 +22,7 @@ public class Todo {
     }
     
     public enum TodoCategory {
-        工作, 学习, 生活
+        WORK, STUDY, LIFE
     }
     
     @Id
@@ -45,7 +45,7 @@ public class Todo {
     
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private TodoCategory category = TodoCategory.工作;
+    private TodoCategory category = TodoCategory.WORK;
     
     @Column(name = "due_date")
     private LocalDateTime dueDate;
