@@ -49,11 +49,11 @@ export class TodoItemComponent implements OnInit {
 
   getCategoryClass(): string {
     switch (this.todo.category) {
-      case TodoCategory.工作:
+      case TodoCategory.WORK:
         return 'work';
-      case TodoCategory.学习:
+      case TodoCategory.STUDY:
         return 'study';
-      case TodoCategory.生活:
+      case TodoCategory.LIFE:
         return 'life';
       default:
         return 'work';

@@ -84,15 +84,23 @@ export class ReminderNotificationComponent implements OnInit, OnDestroy {
 
   getCategoryClass(category: TodoCategory): string {
     switch (category) {
-      case TodoCategory.工作:
+      case TodoCategory.WORK:
         return 'work';
-      case TodoCategory.学习:
+      case TodoCategory.STUDY:
         return 'study';
-      case TodoCategory.生活:
+      case TodoCategory.LIFE:
         return 'life';
       default:
         return 'work';
     }
+  }
+
+  trackById(index: number, reminder: Todo): number | null {
+    return reminder.id;
+  }
+
+  get TodoCategory(): typeof TodoCategory {
+    return TodoCategory;
   }
 
   hasReminders(): boolean {

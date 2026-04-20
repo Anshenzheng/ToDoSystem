@@ -89,22 +89,22 @@
         <button 
           type="button"
           class="category-btn"
-          [class.active]="todoForm.get('category')?.value === TodoCategory.工作"
-          (click)="todoForm.get('category')?.setValue(TodoCategory.工作)">
+          [class.active]="todoForm.get('category')?.value === TodoCategory.WORK"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.WORK)">
           💼 工作
         </button>
         <button 
           type="button"
           class="category-btn"
-          [class.active]="todoForm.get('category')?.value === TodoCategory.学习"
-          (click)="todoForm.get('category')?.setValue(TodoCategory.学习)">
+          [class.active]="todoForm.get('category')?.value === TodoCategory.STUDY"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.STUDY)">
           📚 学习
         </button>
         <button 
           type="button"
           class="category-btn"
-          [class.active]="todoForm.get('category')?.value === TodoCategory.生活"
-          (click)="todoForm.get('category')?.setValue(TodoCategory.生活)">
+          [class.active]="todoForm.get('category')?.value === TodoCategory.LIFE"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.LIFE)">
           🏠 生活
         </button>
       </div>

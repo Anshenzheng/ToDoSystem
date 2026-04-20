@@ -8,9 +8,9 @@
   <div class="reminder-list">
     <div class="reminder-item" *ngFor="let reminder of reminders; trackBy: trackById">
       <div class="reminder-icon" [class]="getCategoryClass(reminder.category)">
-        <span *ngIf="reminder.category === '工作'">💼</span>
-        <span *ngIf="reminder.category === '学习'">📚</span>
-        <span *ngIf="reminder.category === '生活'">🏠</span>
+        <span *ngIf="reminder.category === TodoCategory.WORK">💼</span>
+        <span *ngIf="reminder.category === TodoCategory.STUDY">📚</span>
+        <span *ngIf="reminder.category === TodoCategory.LIFE">🏠</span>
       </div>
       
       <div class="reminder-content">

@@ -97,12 +97,12 @@ export class AppComponent implements OnInit {
     this.applyFilters();
   }
 
-  onFilterChange(filters: { status?: TodoStatus; category?: TodoCategory }): void {
+  onFilterChange(filters: { status?: TodoStatus | null; category?: TodoCategory | null }): void {
     if (filters.status !== undefined) {
-      this.selectedStatus = filters.status || null;
+      this.selectedStatus = filters.status;
     }
     if (filters.category !== undefined) {
-      this.selectedCategory = filters.category || null;
+      this.selectedCategory = filters.category;
     }
     this.applyFilters();
   }

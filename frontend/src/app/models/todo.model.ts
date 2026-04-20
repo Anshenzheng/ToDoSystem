@@ -11,9 +11,9 @@ export enum TodoPriority {
 }
 
 export enum TodoCategory {
-  工作 = '工作',
-  学习 = '学习',
-  生活 = '生活'
+  WORK = 'WORK',
+  STUDY = 'STUDY',
+  LIFE = 'LIFE'
 }
 
 export interface Todo {
@@ -58,9 +58,9 @@ export const priorityLabels: Record<TodoPriority, string> = {
 };
 
 export const categoryLabels: Record<TodoCategory, string> = {
-  [TodoCategory.工作]: '工作',
-  [TodoCategory.学习]: '学习',
-  [TodoCategory.生活]: '生活'
+  [TodoCategory.WORK]: '工作',
+  [TodoCategory.STUDY]: '学习',
+  [TodoCategory.LIFE]: '生活'
 };
 
 export function createDefaultTodo(): Todo {
@@ -70,7 +70,7 @@ export function createDefaultTodo(): Todo {
     description: '',
     status: TodoStatus.PENDING,
     priority: TodoPriority.MEDIUM,
-    category: TodoCategory.工作,
+    category: TodoCategory.WORK,
     dueDate: null,
     reminderEnabled: false,
     reminderTime: null,

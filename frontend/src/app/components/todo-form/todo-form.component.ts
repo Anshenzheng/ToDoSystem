@@ -21,6 +21,9 @@ export class TodoFormComponent implements OnInit {
   priorityLabels = priorityLabels;
   categoryLabels = categoryLabels;
 
+  TodoPriority = TodoPriority;
+  TodoCategory = TodoCategory;
+
   showReminder = false;
   isEditing = false;
 
@@ -44,7 +47,7 @@ export class TodoFormComponent implements OnInit {
       description: ['', Validators.maxLength(1000)],
       status: [TodoStatus.PENDING],
       priority: [TodoPriority.MEDIUM],
-      category: [TodoCategory.工作],
+      category: [TodoCategory.WORK],
       dueDate: [''],
       reminderEnabled: [false],
       reminderTime: ['']
