@@ -1,0 +1,63 @@
+<div class="search-filter-container">
+  <!-- 标签页 -->
+  <div class="tabs-row">
+    <div class="tabs">
+      <button 
+        *ngFor="let tab of tabs"
+        class="tab-btn"
+        [class.active]="activeTab === tab.key"
+        (click)="onTabClick(tab.key)">
+        <span class="tab-icon">{{ tab.icon }}</span>
+        <span class="tab-label">{{ tab.label }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 搜索和筛选 -->
+  <div class="filter-row">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        placeholder="搜索待办事项..." 
+        [(ngModel)]="searchKeyword"
+        (keyup.enter)="onSearch()"
+        (input)="onSearch()">
+      <button 
+        *ngIf="searchKeyword" 
+        class="clear-btn"
+        (click)="searchKeyword = ''; onSearch()">
+        ✕
+      </button>
+    </div>
+
+    <div class="filter-selects">
+      <select 
+        class="filter-select"
+        [(ngModel)]="selectedStatus"
+        (change)="onStatusChange()">
+        <option [ngValue]="null">全部状态</option>
+        <option *ngFor="let status of statuses" [ngValue]="status">
+          {{ statusLabels[status] }}
+        </option>
+      </select>
+
+      <select 
+        class="filter-select"
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()">
+        <option [ngValue]="null">全部分类</option>
+        <option *ngFor="let category of categories" [ngValue]="category">
+          {{ categoryLabels[category] }}
+        </option>
+      </select>
+
+      <button 
+        class="btn btn-outline btn-sm"
+        *ngIf="hasFilters()"
+        (click)="clearFilters()">
+        清除筛选
+      </button>
+    </div>
+  </div>
+</div>

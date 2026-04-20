@@ -1,0 +1,164 @@
+<div class="todo-form-container">
+  <div class="form-header">
+    <h2 class="form-title">{{ formTitle }}</h2>
+    <button class="close-btn" (click)="onCancel()">✕</button>
+  </div>
+
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()" class="todo-form">
+    <!-- 标题 -->
+    <div class="form-group">
+      <label class="form-label required">
+        <span class="label-icon">📝</span>
+        待办标题
+      </label>
+      <input 
+        type="text" 
+        formControlName="title"
+        placeholder="请输入待办标题..."
+        class="form-input"
+        [class.error]="getFieldError('title')">
+      <div class="error-message" *ngIf="getFieldError('title')">
+        {{ getFieldError('title') }}
+      </div>
+    </div>
+
+    <!-- 描述 -->
+    <div class="form-group">
+      <label class="form-label">
+        <span class="label-icon">📄</span>
+        详细描述
+      </label>
+      <textarea 
+        formControlName="description"
+        placeholder="添加待办的详细描述（可选）..."
+        class="form-textarea"
+        rows="3"></textarea>
+    </div>
+
+    <!-- 状态、优先级、分类 -->
+    <div class="form-row">
+      <div class="form-group half">
+        <label class="form-label">
+          <span class="label-icon">🎯</span>
+          状态
+        </label>
+        <select formControlName="status" class="form-select">
+          <option *ngFor="let status of statuses" [ngValue]="status">
+            {{ statusLabels[status] }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group half">
+        <label class="form-label">
+          <span class="label-icon">⚡</span>
+          优先级
+        </label>
+        <div class="priority-buttons">
+          <button 
+            type="button"
+            class="priority-btn"
+            [class.active]="todoForm.get('priority')?.value === TodoPriority.LOW"
+            (click)="todoForm.get('priority')?.setValue(TodoPriority.LOW)">
+            低
+          </button>
+          <button 
+            type="button"
+            class="priority-btn"
+            [class.active]="todoForm.get('priority')?.value === TodoPriority.MEDIUM"
+            (click)="todoForm.get('priority')?.setValue(TodoPriority.MEDIUM)">
+            中
+          </button>
+          <button 
+            type="button"
+            class="priority-btn"
+            [class.active]="todoForm.get('priority')?.value === TodoPriority.HIGH"
+            (click)="todoForm.get('priority')?.setValue(TodoPriority.HIGH)">
+            高
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">
+        <span class="label-icon">📂</span>
+        分类
+      </label>
+      <div class="category-buttons">
+        <button 
+          type="button"
+          class="category-btn"
+          [class.active]="todoForm.get('category')?.value === TodoCategory.工作"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.工作)">
+          💼 工作
+        </button>
+        <button 
+          type="button"
+          class="category-btn"
+          [class.active]="todoForm.get('category')?.value === TodoCategory.学习"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.学习)">
+          📚 学习
+        </button>
+        <button 
+          type="button"
+          class="category-btn"
+          [class.active]="todoForm.get('category')?.value === TodoCategory.生活"
+          (click)="todoForm.get('category')?.setValue(TodoCategory.生活)">
+          🏠 生活
+        </button>
+      </div>
+    </div>
+
+    <!-- 截止日期 -->
+    <div class="form-group">
+      <label class="form-label">
+        <span class="label-icon">📅</span>
+        截止日期
+      </label>
+      <div class="datetime-input-group">
+        <input 
+          type="datetime-local" 
+          formControlName="dueDate"
+          class="form-input">
+        <div class="quick-buttons">
+          <button type="button" class="quick-btn" (click)="setDueDateTomorrow()">明天 18:00</button>
+          <button type="button" class="quick-btn" (click)="setDueDateNextWeek()">下周今天</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 提醒设置 -->
+    <div class="form-group">
+      <div class="reminder-toggle">
+        <label class="form-label">
+          <span class="label-icon">🔔</span>
+          设置提醒
+        </label>
+        <label class="toggle-switch">
+          <input type="checkbox" formControlName="reminderEnabled">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="reminder-options" *ngIf="showReminder">
+        <label class="form-label small">提醒时间</label>
+        <input 
+          type="datetime-local" 
+          formControlName="reminderTime"
+          class="form-input">
+        <p class="hint">提醒将在设置的时间通过浏览器通知您</p>
+      </div>
+    </div>
+
+    <!-- 按钮区域 -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" (click)="onCancel()">
+        取消
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="todoForm.invalid">
+        {{ submitButtonText }}
+      </button>
+    </div>
+  </form>
+</div>

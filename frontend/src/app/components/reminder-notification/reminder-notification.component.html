@@ -1,0 +1,34 @@
+<div class="reminder-container" *ngIf="hasReminders()">
+  <div class="reminder-header">
+    <span class="header-icon">🔔</span>
+    <span class="header-title">待办提醒</span>
+    <button class="dismiss-btn" (click)="dismissAll()">全部清除</button>
+  </div>
+  
+  <div class="reminder-list">
+    <div class="reminder-item" *ngFor="let reminder of reminders; trackBy: trackById">
+      <div class="reminder-icon" [class]="getCategoryClass(reminder.category)">
+        <span *ngIf="reminder.category === '工作'">💼</span>
+        <span *ngIf="reminder.category === '学习'">📚</span>
+        <span *ngIf="reminder.category === '生活'">🏠</span>
+      </div>
+      
+      <div class="reminder-content">
+        <h4 class="reminder-title">{{ reminder.title }}</h4>
+        <p class="reminder-meta">
+          <span class="meta-tag category">
+            {{ categoryLabels[reminder.category] }}
+          </span>
+          <span class="meta-tag status">
+            {{ statusLabels[reminder.status] }}
+          </span>
+        </p>
+        <p class="reminder-description" *ngIf="reminder.description">
+          {{ reminder.description }}
+        </p>
+      </div>
+      
+      <button class="close-btn" (click)="removeReminder(reminder)">✕</button>
+    </div>
+  </div>
+</div>

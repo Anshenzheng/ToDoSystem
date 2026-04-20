@@ -1,0 +1,29 @@
+<div class="todo-list-container" *ngIf="!isEmpty">
+  <div class="list-header" *ngIf="title">
+    <span class="list-icon">{{ icon }}</span>
+    <h3 class="list-title">{{ title }}</h3>
+    <span class="list-count">{{ displayTodos.length }}</span>
+  </div>
+  
+  <div class="list-content">
+    <app-todo-item 
+      *ngFor="let todo of displayTodos" 
+      [todo]="todo"
+      (edit)="onEdit($event)"
+      (delete)="onDelete($event)"
+      (statusChange)="onStatusChange($event)">
+    </app-todo-item>
+  </div>
+</div>
+
+<div class="empty-container" *ngIf="isEmpty">
+  <div class="empty-content">
+    <div class="empty-icon">{{ showCompleted ? '🎉' : '🎯' }}</div>
+    <p class="empty-text">
+      {{ showCompleted ? '还没有已完成的待办' : '暂无待办事项' }}
+    </p>
+    <p class="empty-hint" *ngIf="!showCompleted">
+      点击上方「新建待办」开始添加
+    </p>
+  </div>
+</div>
