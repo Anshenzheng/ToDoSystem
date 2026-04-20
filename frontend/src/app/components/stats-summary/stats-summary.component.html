@@ -1,0 +1,36 @@
+<div class="stats-container">
+  <div class="stats-card pending">
+    <div class="stats-icon">📋</div>
+    <div class="stats-info">
+      <div class="stats-value">{{ pendingCount }}</div>
+      <div class="stats-label">待办</div>
+    </div>
+  </div>
+  
+  <div class="stats-card in-progress">
+    <div class="stats-icon">🔄</div>
+    <div class="stats-info">
+      <div class="stats-value">{{ inProgressCount }}</div>
+      <div class="stats-label">进行中</div>
+    </div>
+  </div>
+  
+  <div class="stats-card completed">
+    <div class="stats-icon">✅</div>
+    <div class="stats-info">
+      <div class="stats-value">{{ completedCount }}</div>
+      <div class="stats-label">已完成</div>
+    </div>
+  </div>
+  
+  <div class="stats-card total">
+    <div class="stats-icon">📊</div>
+    <div class="stats-info">
+      <div class="stats-value">{{ completionRate }}%</div>
+      <div class="stats-label">完成率</div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="completionRate"></div>
+    </div>
+  </div>
+</div>

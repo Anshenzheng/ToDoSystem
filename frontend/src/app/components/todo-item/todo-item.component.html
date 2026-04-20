@@ -1,0 +1,89 @@
+<div class="todo-item" 
+     [class.completed]="isCompleted()"
+     [class.overdue]="isOverdue()"
+     (mouseenter)="showActions = true"
+     (mouseleave)="showActions = false">
+  
+  <!-- 左侧复选框/图标 -->
+  <div class="todo-checkbox" (click)="toggleComplete()">
+    <div class="checkbox" [class.checked]="isCompleted()">
+      <span *ngIf="isCompleted()">✓</span>
+    </div>
+  </div>
+
+  <!-- 中间内容区域 -->
+  <div class="todo-content" (click)="onEdit()">
+    <!-- 标题行 -->
+    <div class="todo-header">
+      <h3 class="todo-title" [class.completed]="isCompleted()">
+        {{ todo.title }}
+      </h3>
+      
+      <!-- 标签 -->
+      <div class="todo-badges">
+        <span class="badge badge-priority" [class]="getPriorityClass()">
+          {{ priorityLabels[todo.priority] }}优先级
+        </span>
+        <span class="badge badge-category" [class]="getCategoryClass()">
+          {{ categoryLabels[todo.category] }}
+        </span>
+      </div>
+    </div>
+
+    <!-- 描述 -->
+    <p class="todo-description" *ngIf="todo.description" [class.completed]="isCompleted()">
+      {{ todo.description }}
+    </p>
+
+    <!-- 底部信息 -->
+    <div class="todo-footer">
+      <div class="todo-meta">
+        <!-- 状态 -->
+        <span class="meta-item status-indicator" [class]="todo.status.toLowerCase()">
+          {{ statusLabels[todo.status] }}
+        </span>
+        
+        <!-- 截止日期 -->
+        <span class="meta-item due-date" *ngIf="todo.dueDate" [class.overdue]="isOverdue()">
+          <span class="meta-icon">📅</span>
+          {{ formatDate(todo.dueDate) }}
+        </span>
+
+        <!-- 提醒 -->
+        <span class="meta-item reminder" *ngIf="todo.reminderEnabled && todo.reminderTime">
+          <span class="meta-icon">🔔</span>
+          {{ formatDate(todo.reminderTime) }}
+        </span>
+
+        <!-- 创建时间 -->
+        <span class="meta-item created">
+          <span class="meta-icon">🕐</span>
+          创建于 {{ formatDate(todo.createdAt) }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧操作按钮 -->
+  <div class="todo-actions" [class.visible]="showActions">
+    <!-- 进行中按钮 -->
+    <button 
+      class="action-btn in-progress"
+      *ngIf="!isCompleted()"
+      [class.active]="isInProgress()"
+      (click)="toggleInProgress()"
+      [title]="isInProgress() ? '标记为待办' : '标记为进行中'">
+      🔄
+    </button>
+    
+    <!-- 编辑按钮 -->
+    <button class="action-btn edit" (click)="onEdit()" title="编辑">
+      ✏️
+    </button>
+    
+    <!-- 删除按钮 -->
+    <button class="action-btn delete" (click)="onDelete()" title="删除">
+      🗑️
+    </button>
+  </div>
+</div>

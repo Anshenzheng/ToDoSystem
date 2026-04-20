@@ -1,0 +1,99 @@
+<div class="app-container">
+  <!-- 头部 -->
+  <header class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">
+        <span class="title-icon">📝</span>
+        待办事项管理平台
+      </h1>
+      <button class="btn btn-primary btn-lg" (click)="openCreateForm()">
+        <span>➕</span>
+        新建待办
+      </button>
+    </div>
+  </header>
+
+  <!-- 统计摘要 -->
+  <app-stats-summary [todos]="todos"></app-stats-summary>
+
+  <!-- 主体内容 -->
+  <main class="main-content">
+    <!-- 搜索筛选区域 -->
+    <app-search-filter 
+      (search)="onSearch($event)"
+      (filterChange)="onFilterChange($event)"
+      [activeTab]="activeTab"
+      (tabChange)="onTabChange($event)">
+    </app-search-filter>
+
+    <!-- 待办列表区域 -->
+    <div class="todo-container">
+      <!-- 待办/进行中列表 -->
+      <div class="todo-section" *ngIf="activeTab !== 'completed' && pendingTodos.length > 0">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">📋</span>
+            待办事项
+            <span class="section-count">{{ pendingTodos.length }}</span>
+          </h2>
+        </div>
+        <div class="todo-list">
+          <app-todo-item 
+            *ngFor="let todo of pendingTodos" 
+            [todo]="todo"
+            (edit)="openEditForm($event)"
+            (delete)="onDelete($event)"
+            (statusChange)="onStatusChange($event)">
+          </app-todo-item>
+        </div>
+      </div>
+
+      <!-- 已完成列表 -->
+      <div class="todo-section completed-section" *ngIf="activeTab !== 'pending' && completedTodos.length > 0">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">✅</span>
+            已完成
+            <span class="section-count">{{ completedTodos.length }}</span>
+          </h2>
+        </div>
+        <div class="todo-list">
+          <app-todo-item 
+            *ngFor="let todo of completedTodos" 
+            [todo]="todo"
+            (edit)="openEditForm($event)"
+            (delete)="onDelete($event)"
+            (statusChange)="onStatusChange($event)">
+          </app-todo-item>
+        </div>
+      </div>
+
+      <!-- 空状态 -->
+      <div class="empty-state" *ngIf="filteredTodos.length === 0">
+        <div class="empty-state-icon">📭</div>
+        <div class="empty-state-text">
+          <p *ngIf="searchKeyword || selectedStatus || selectedCategory">
+            没有找到匹配的待办事项
+          </p>
+          <p *ngIf="!searchKeyword && !selectedStatus && !selectedCategory">
+            暂无待办事项，点击上方「新建待办」开始添加
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 表单弹窗 -->
+  <div class="modal-overlay" *ngIf="showForm" (click)="closeForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <app-todo-form 
+        [todo]="editingTodo"
+        (submit)="onFormSubmit($event)"
+        (cancel)="closeForm()">
+      </app-todo-form>
+    </div>
+  </div>
+
+  <!-- 提醒通知 -->
+  <app-reminder-notification></app-reminder-notification>
+</div>
