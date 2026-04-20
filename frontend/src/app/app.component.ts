@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo, TodoStatus, TodoCategory, TodoPriority } from './models/todo.model';
+import { Todo, TodoStatus, TodoCategory, TodoPriority, statusLabels, priorityLabels, categoryLabels } from './models/todo.model';
 import { TodoService } from './services/todo.service';
 import { ReminderService } from './services/reminder.service';
 
@@ -14,10 +14,31 @@ export class AppComponent implements OnInit {
   filteredTodos: Todo[] = [];
   showForm = false;
   editingTodo: Todo | null = null;
-  selectedStatus: TodoStatus | null = null;
-  selectedCategory: TodoCategory | null = null;
+  
   searchKeyword = '';
-  activeTab: 'all' | 'pending' | 'completed' = 'all';
+  selectedCategory: TodoCategory | null = null;
+  activeStatus: TodoStatus | null = null;
+  
+  TodoStatus = TodoStatus;
+  TodoCategory = TodoCategory;
+  TodoPriority = TodoPriority;
+  statusLabels = statusLabels;
+  priorityLabels = priorityLabels;
+  categoryLabels = categoryLabels;
+
+  tabs = [
+    { key: null, label: '全部' },
+    { key: TodoStatus.PENDING, label: '待办' },
+    { key: TodoStatus.IN_PROGRESS, label: '进行中' },
+    { key: TodoStatus.COMPLETED, label: '已完成' }
+  ];
+
+  categories = [
+    { key: null, label: '全部分类' },
+    { key: TodoCategory.WORK, label: '工作' },
+    { key: TodoCategory.STUDY, label: '学习' },
+    { key: TodoCategory.LIFE, label: '生活' }
+  ];
 
   constructor(
     private todoService: TodoService,
@@ -44,26 +65,14 @@ export class AppComponent implements OnInit {
   applyFilters(): void {
     let result = [...this.todos];
 
-    // 标签页筛选
-    if (this.activeTab === 'pending') {
-      result = result.filter(t => 
-        t.status === TodoStatus.PENDING || t.status === TodoStatus.IN_PROGRESS
-      );
-    } else if (this.activeTab === 'completed') {
-      result = result.filter(t => t.status === TodoStatus.COMPLETED);
+    if (this.activeStatus !== null) {
+      result = result.filter(t => t.status === this.activeStatus);
     }
 
-    // 状态筛选
-    if (this.selectedStatus) {
-      result = result.filter(t => t.status === this.selectedStatus);
-    }
-
-    // 分类筛选
-    if (this.selectedCategory) {
+    if (this.selectedCategory !== null) {
       result = result.filter(t => t.category === this.selectedCategory);
     }
 
-    // 关键词搜索
     if (this.searchKeyword.trim()) {
       const keyword = this.searchKeyword.toLowerCase();
       result = result.filter(t => 
@@ -72,7 +81,6 @@ export class AppComponent implements OnInit {
       );
     }
 
-    // 排序：待办按优先级降序、截止日期升序；已完成按完成时间降序
     result.sort((a, b) => {
       if (a.status === TodoStatus.COMPLETED && b.status !== TodoStatus.COMPLETED) {
         return 1;
@@ -92,23 +100,16 @@ export class AppComponent implements OnInit {
     this.filteredTodos = result;
   }
 
-  onSearch(keyword: string): void {
-    this.searchKeyword = keyword;
+  onSearch(): void {
     this.applyFilters();
   }
 
-  onFilterChange(filters: { status?: TodoStatus | null; category?: TodoCategory | null }): void {
-    if (filters.status !== undefined) {
-      this.selectedStatus = filters.status;
-    }
-    if (filters.category !== undefined) {
-      this.selectedCategory = filters.category;
-    }
+  onTabClick(status: TodoStatus | null): void {
+    this.activeStatus = status;
     this.applyFilters();
   }
 
-  onTabChange(tab: 'all' | 'pending' | 'completed'): void {
-    this.activeTab = tab;
+  onCategoryChange(): void {
     this.applyFilters();
   }
 
@@ -175,11 +176,74 @@ export class AppComponent implements OnInit {
     }
   }
 
-  get pendingTodos(): Todo[] {
-    return this.filteredTodos.filter(t => t.status !== TodoStatus.COMPLETED);
+  clearAllFilters(): void {
+    this.searchKeyword = '';
+    this.selectedCategory = null;
+    this.activeStatus = null;
+    this.applyFilters();
   }
 
-  get completedTodos(): Todo[] {
-    return this.filteredTodos.filter(t => t.status === TodoStatus.COMPLETED);
+  hasActiveFilters(): boolean {
+    return this.searchKeyword.trim() !== '' || 
+           this.selectedCategory !== null;
+  }
+
+  getCountByStatus(status: TodoStatus): number {
+    return this.todos.filter(t => t.status === status).length;
+  }
+
+  getTotalCount(): number {
+    return this.todos.length;
+  }
+
+  trackById(index: number, todo: Todo): number | null {
+    return todo.id;
+  }
+
+  toggleStatus(todo: Todo): void {
+    const newStatus = todo.status === TodoStatus.COMPLETED ? TodoStatus.PENDING : TodoStatus.COMPLETED;
+    if (todo.id !== null) {
+      this.onStatusChange({ id: todo.id, status: newStatus });
+    }
+  }
+
+  toggleProgress(todo: Todo): void {
+    const newStatus = todo.status === TodoStatus.IN_PROGRESS ? TodoStatus.PENDING : TodoStatus.IN_PROGRESS;
+    if (todo.id !== null) {
+      this.onStatusChange({ id: todo.id, status: newStatus });
+    }
+  }
+
+  getPriorityLabel(priority: TodoPriority): string {
+    return priorityLabels[priority];
+  }
+
+  getCategoryLabel(category: TodoCategory): string {
+    return categoryLabels[category];
+  }
+
+  formatDate(dateStr: string | null): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const isToday = date.toDateString() === now.toDateString();
+    const isTomorrow = date.toDateString() === tomorrow.toDateString();
+    
+    if (isToday) {
+      return `今天 ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else if (isTomorrow) {
+      return `明天 ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else {
+      return `${date.getMonth() + 1}/${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+  }
+
+  isOverdue(todo: Todo): boolean {
+    if (!todo.dueDate || todo.status === TodoStatus.COMPLETED) return false;
+    const dueDate = new Date(todo.dueDate);
+    return dueDate < new Date();
   }
 }

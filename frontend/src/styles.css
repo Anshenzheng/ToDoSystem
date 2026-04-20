@@ -1,53 +1,68 @@
-/* 全局样式 - 柔和配色方案 */
+/* 全局样式 - 简洁实用配色方案 */
 :root {
-  /* 主色调 - 柔和的蓝绿色 */
-  --primary-color: #6b9ac4;
-  --primary-light: #a3c4dc;
-  --primary-dark: #4a7c9b;
-  
-  /* 辅助色 */
-  --accent-color: #f4a261;
-  --accent-light: #f8c193;
-  --accent-dark: #e67e22;
+  /* 主色调 - 现代蓝色 */
+  --primary-color: #3b82f6;
+  --primary-light: #60a5fa;
+  --primary-dark: #2563eb;
+  --primary-bg: #eff6ff;
   
   /* 状态色 */
-  --success-color: #7fc8a9;
-  --warning-color: #ffeaa7;
-  --error-color: #ff8a8a;
-  --info-color: #81ecec;
+  --success-color: #10b981;
+  --success-bg: #d1fae5;
+  --warning-color: #f59e0b;
+  --warning-bg: #fef3c7;
+  --error-color: #ef4444;
+  --error-bg: #fee2e2;
+  --info-color: #06b6d4;
+  --info-bg: #cffafe;
   
   /* 中性色 */
-  --bg-color: #f8f9fa;
+  --bg-color: #f9fafb;
   --card-bg: #ffffff;
-  --text-primary: #2d3436;
-  --text-secondary: #636e72;
-  --text-light: #b2bec3;
-  --border-color: #e0e0e0;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-light: #9ca3af;
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
   
-  /* 优先级颜色 */
-  --priority-high: #ff6b6b;
-  --priority-medium: #ffd93d;
-  --priority-low: #95e1d3;
+  /* 优先级颜色 - 柔和配色 */
+  --priority-high: #fee2e2;
+  --priority-high-text: #991b1b;
+  --priority-high-border: #fecaca;
+  --priority-medium: #fef3c7;
+  --priority-medium-text: #92400e;
+  --priority-medium-border: #fde68a;
+  --priority-low: #d1fae5;
+  --priority-low-text: #065f46;
+  --priority-low-border: #a7f3d0;
   
   /* 分类颜色 */
-  --category-work: #74b9ff;
-  --category-study: #a29bfe;
-  --category-life: #fd79a8;
+  --category-work: #dbeafe;
+  --category-work-text: #1e40af;
+  --category-study: #ede9fe;
+  --category-study-text: #5b21b6;
+  --category-life: #fce7f3;
+  --category-life-text: #9d174d;
   
-  /* 阴影 */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* 状态指示点 */
+  --status-pending: #f59e0b;
+  --status-in-progress: #3b82f6;
+  --status-completed: #10b981;
   
-  /* 圆角 */
+  /* 阴影 - 简洁 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  
+  /* 圆角 - 统一 */
   --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
   
   /* 过渡 */
   --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
+  --transition-normal: 0.2s ease;
 }
 
 * {
@@ -60,93 +75,111 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.5;
   font-size: 14px;
 }
 
-/* 按钮样式 */
+/* 按钮样式 - 统一简洁 */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-fast);
   text-decoration: none;
+  line-height: 1.4;
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
+  border-color: var(--primary-color);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  border-color: var(--primary-dark);
 }
 
-.btn-success {
-  background-color: var(--success-color);
-  color: white;
+.btn-primary:active {
+  transform: translateY(0);
 }
 
-.btn-success:hover {
-  background-color: #5bb895;
+.btn-secondary {
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  border-color: var(--text-light);
 }
 
 .btn-danger {
-  background-color: var(--error-color);
-  color: white;
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  border-color: var(--error-bg);
 }
 
 .btn-danger:hover {
-  background-color: #ff6b6b;
+  background-color: #fee2e2;
 }
 
-.btn-outline {
+.btn-text {
   background-color: transparent;
-  border: 1px solid var(--border-color);
   color: var(--text-secondary);
+  border-color: transparent;
+  padding: 6px 12px;
 }
 
-.btn-outline:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  background-color: rgba(107, 154, 196, 0.05);
+.btn-text:hover {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
 }
 
 .btn-sm {
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 5px 10px;
+  font-size: 13px;
 }
 
 .btn-lg {
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: 10px 20px;
+  font-size: 15px;
 }
 
-/* 输入框样式 */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--radius-md);
+}
+
+/* 输入框样式 - 简洁 */
 input, textarea, select {
   width: 100%;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   font-size: 14px;
   font-family: inherit;
   transition: all var(--transition-fast);
   background-color: var(--card-bg);
+  color: var(--text-primary);
+  line-height: 1.4;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(107, 154, 196, 0.15);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 input::placeholder, textarea::placeholder {
@@ -155,82 +188,93 @@ input::placeholder, textarea::placeholder {
 
 textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 72px;
 }
 
-/* 标签样式 */
+/* 标签样式 - 简洁 */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 3px 10px;
-  border-radius: 20px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
   font-size: 12px;
   font-weight: 500;
+  line-height: 1.4;
 }
 
 .badge-pending {
-  background-color: var(--warning-color);
-  color: #e67e22;
+  background-color: var(--warning-bg);
+  color: var(--warning-color);
 }
 
 .badge-in-progress {
-  background-color: var(--primary-light);
-  color: var(--primary-dark);
+  background-color: var(--primary-bg);
+  color: var(--primary-color);
 }
 
 .badge-completed {
-  background-color: var(--success-color);
-  color: #2d6a4f;
+  background-color: var(--success-bg);
+  color: var(--success-color);
 }
 
 .badge-high {
   background-color: var(--priority-high);
-  color: white;
+  color: var(--priority-high-text);
+  border: 1px solid var(--priority-high-border);
 }
 
 .badge-medium {
   background-color: var(--priority-medium);
-  color: #9e8a00;
+  color: var(--priority-medium-text);
+  border: 1px solid var(--priority-medium-border);
 }
 
 .badge-low {
   background-color: var(--priority-low);
-  color: #1a7f64;
+  color: var(--priority-low-text);
+  border: 1px solid var(--priority-low-border);
 }
 
 .badge-work {
   background-color: var(--category-work);
-  color: white;
+  color: var(--category-work-text);
 }
 
 .badge-study {
   background-color: var(--category-study);
-  color: white;
+  color: var(--category-study-text);
 }
 
 .badge-life {
   background-color: var(--category-life);
-  color: white;
+  color: var(--category-life-text);
 }
 
-/* 卡片样式 */
+/* 卡片样式 - 简洁 */
 .card {
   background-color: var(--card-bg);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
   transition: all var(--transition-normal);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: var(--text-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 分隔线 */
+.divider {
+  height: 1px;
+  background-color: var(--border-light);
+  margin: 12px 0;
 }
 
 /* 动画 */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
@@ -241,7 +285,7 @@ textarea {
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateX(-12px);
   }
   to {
     opacity: 1;
@@ -254,40 +298,35 @@ textarea {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 .slide-in {
-  animation: slideIn 0.3s ease;
-}
-
-.pulse {
-  animation: pulse 2s infinite;
+  animation: slideIn 0.2s ease;
 }
 
 /* 滚动条样式 */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-color);
-  border-radius: 3px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--text-light);
+  background: var(--border-color);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: var(--text-light);
 }
 
 /* 空状态样式 */
@@ -296,18 +335,107 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 48px 24px;
   color: var(--text-light);
   text-align: center;
 }
 
 .empty-state-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  opacity: 0.5;
+  font-size: 40px;
+  margin-bottom: 12px;
+  opacity: 0.4;
 }
 
 .empty-state-text {
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* 工具类 */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-light {
+  color: var(--text-light);
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.text-lg {
+  font-size: 16px;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.p-2 {
+  padding: 8px;
+}
+
+.p-3 {
+  padding: 12px;
+}
+
+.p-4 {
+  padding: 16px;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-3 {
+  margin-top: 12px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-3 {
+  margin-bottom: 12px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
 }
